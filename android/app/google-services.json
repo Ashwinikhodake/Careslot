@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "425592125219",
+    "project_id": "careslot-bd932",
+    "storage_bucket": "careslot-bd932.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:425592125219:android:239722fbe23b729c27be96",
+        "android_client_info": {
+          "package_name": "com.ashwinik.careslot"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCerYPwecWt3Vs2sLWcLDtriGEHi6ZSLH4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
