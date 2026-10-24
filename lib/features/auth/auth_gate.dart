@@ -1,5 +1,6 @@
 import 'package:careslot/features/auth/auth_providers.dart';
 import 'package:careslot/features/auth/auth_screen.dart';
+import 'package:careslot/features/patient/patient_dashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -38,21 +39,14 @@ class AuthGate extends ConsumerWidget {
                     ),
                   );
                 }
+
+                if (role == 'patient') {
+                  final name = profile['name'] as String? ?? 'Patient';
+                  return PatientDashboard(patientName: name);
+                }
                 return Scaffold(
                   body: Center(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text('Signed in as $role'),
-                        const SizedBox(height: 16),
-                        ElevatedButton(
-                          onPressed: () async {
-                            await ref.read(authRepositoryProvider).signOut();
-                          },
-                          child: const Text('Sign Out'),
-                        ),
-                      ],
-                    ),
+                    child: Text('Dashboard for $role is comming soon.'),
                   ),
                 );
               },
