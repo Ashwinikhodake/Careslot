@@ -13,3 +13,13 @@ final authRepositoryProvider = Provider<AuthRepository>((ref) {
 final authStateProvider = StreamProvider<User?>((ref) {
   return ref.watch(authRepositoryProvider).authStateChanges();
 });
+
+final userProfileProvider = FutureProvider<Map<String, dynamic>?>((ref) async {
+  final authRepository = ref.watch(authRepositoryProvider);
+  final user = authRepository.currentUser;
+
+  if (user == null) {
+    return null;
+  }
+  return authRepository.getUserProfile(user.uid);
+});
