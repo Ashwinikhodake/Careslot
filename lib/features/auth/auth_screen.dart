@@ -98,6 +98,37 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
     }
   }
 
+  Future<void> _forgotPassword() async {
+    final email = _emailController.text.trim();
+
+    if (AuthValidation.email(email) != null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Please enter a valid email address first.')),
+      );
+      return;
+    }
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      await ref.read(authRepositoryProvider).sendPasswordResetEmail(email);
+    } catch (_) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Unable to process the request. Please try again.'),
+        ),
+      );
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -156,6 +187,15 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                   obscureText: true,
                   validator: AuthValidation.password,
                 ),
+
+                if (_isLogin)
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: TextButton(
+                      onPressed: _isLoading ? null : _forgotPassword,
+                      child: const Text('Forgot Password ?'),
+                    ),
+                  ),
                 const SizedBox(height: 24),
                 ElevatedButton(
                   onPressed: _isLoading
