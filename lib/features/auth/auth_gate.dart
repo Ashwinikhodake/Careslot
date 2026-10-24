@@ -42,7 +42,10 @@ class AuthGate extends ConsumerWidget {
 
                 if (role == 'patient') {
                   final name = profile['name'] as String? ?? 'Patient';
-                  return PatientDashboard(patientName: name);
+                  return PatientDashboard(
+                    patientName: name,
+                    email: profile['email'] as String? ?? '',
+                  );
                 }
                 return Scaffold(
                   body: Center(

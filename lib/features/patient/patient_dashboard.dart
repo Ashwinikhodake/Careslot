@@ -1,12 +1,68 @@
+import 'package:careslot/features/auth/auth_providers.dart';
+import 'package:careslot/features/patient/patient_profile_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class PatientDashboard extends StatelessWidget {
-  const PatientDashboard({super.key, required this.patientName});
+class PatientDashboard extends ConsumerWidget {
+  const PatientDashboard({
+    super.key,
+    required this.patientName,
+    required this.email,
+  });
   final String patientName;
+  final String email;
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      appBar: AppBar(title: const Text('CareSlot'), centerTitle: false),
+      appBar: AppBar(
+        title: const Text('CareSlot'),
+        centerTitle: false,
+        actions: [
+          PopupMenuButton<String>(
+            icon: const Icon(Icons.account_circle_outlined),
+            onSelected: (value) async {
+              if (value == 'profile') {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => PatientProfileScreen(
+                      patientName: patientName,
+                      email: email,
+                    ),
+                  ),
+                );
+              }
+              if (value == 'signOut') {
+                await ref.read(authRepositoryProvider).signOut();
+              }
+            },
+            itemBuilder: (context) => [
+              PopupMenuItem<String>(
+                value: 'profile',
+                child: Row(
+                  children: [
+                    const Icon(Icons.person_outline),
+                    const SizedBox(width: 12),
+                    Expanded(child: Text(patientName)),
+                  ],
+                ),
+              ),
+              const PopupMenuDivider(),
+              PopupMenuItem<String>(
+                value: 'signOut',
+                child: Row(
+                  children: [
+                    const Icon(Icons.logout),
+                    const SizedBox(width: 12),
+                    Expanded(child: Text('Sign Out')),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(20),
