@@ -1,4 +1,5 @@
 import 'package:careslot/features/auth/auth_providers.dart';
+import 'package:careslot/features/doctors/doctor_list_screen.dart';
 import 'package:careslot/features/patient/patient_profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -88,9 +89,9 @@ class PatientDashboard extends ConsumerWidget {
                   subtitle: const Text('Find an doctor and schedule a visit.'),
                   trailing: const Icon(Icons.chevron_right),
                   onTap: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text('Appointment booking coming soon!'),
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (_) => const DoctorListScreen(),
                       ),
                     );
                   },
