@@ -39,11 +39,13 @@ class AuthRepository {
         'role': 'patient',
         'createdAt': FieldValue.serverTimestamp(),
       });
-    } catch (_) {
-      await user.delete();
-      try {} on FirebaseAuthException {
+    } catch (error, stackTrace) {
+      try {
+        await user.delete();
+      } on FirebaseAuthException {
         await _auth.signOut();
       }
+      Error.throwWithStackTrace(error, stackTrace);
     }
   }
 

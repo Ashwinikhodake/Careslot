@@ -1,5 +1,6 @@
 import 'package:careslot/features/auth/auth_providers.dart';
 import 'package:careslot/features/auth/auth_screen.dart';
+import 'package:careslot/features/hospitals/hospital_dashboard.dart';
 import 'package:careslot/features/patient/patient_dashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -30,9 +31,11 @@ class AuthGate extends ConsumerWidget {
                   );
                 }
                 final role = profile['role'];
-                if (role != 'patient' &&
-                    role != 'doctor' &&
-                    role != 'hospital') {
+                // if (role != 'patient' &&
+                //     role != 'doctor' &&
+                //     role != 'hospital')
+                if (role is! String ||
+                    !{'patient', 'doctor', 'hospital'}.contains(role)) {
                   return const Scaffold(
                     body: Center(
                       child: Text('Invalid user role. Please contact support.'),
@@ -47,9 +50,46 @@ class AuthGate extends ConsumerWidget {
                     email: profile['email'] as String? ?? '',
                   );
                 }
+
+                if (role == 'hospital') {
+                  return ref
+                      .watch(hospitalProfileProvider)
+                      .when(
+                        data: (hospital) {
+                          if (hospital == null) {
+                            return const Scaffold(
+                              body: Center(
+                                child: Text(
+                                  'Hospital profile not found. Please contact support.',
+                                ),
+                              ),
+                            );
+                          }
+
+                          if (!hospital.isActive) {
+                            return const Scaffold(
+                              body: Center(
+                                child: Text(
+                                  'This hospital account is inactive.Please contact support.',
+                                ),
+                              ),
+                            );
+                          }
+                          return HospitalDashboard(hospital: hospital);
+                        },
+                        loading: () => const Scaffold(
+                          body: Center(child: CircularProgressIndicator()),
+                        ),
+                        error: (error, stackTrace) => const Scaffold(
+                          body: Center(
+                            child: Text('Unable to load hospital information.'),
+                          ),
+                        ),
+                      );
+                }
                 return Scaffold(
                   body: Center(
-                    child: Text('Dashboard for $role is comming soon.'),
+                    child: Text('Dashboard for $role is coming soon.'),
                   ),
                 );
               },
