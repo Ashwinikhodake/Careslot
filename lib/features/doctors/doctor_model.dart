@@ -35,7 +35,7 @@ class DoctorModel {
       name: map['name'] as String,
       specialty: map['specialty'] as String,
       hospitalId: map['hospitalId'] as String,
-      profileImageUrl: map['profileImageUrl'] as String,
+      profileImageUrl: map['profileImageUrl'] as String?,
       consultationFee: fee is num ? fee.toDouble() : null,
       isAvailable: map['isAvailable'] as bool? ?? true,
     );

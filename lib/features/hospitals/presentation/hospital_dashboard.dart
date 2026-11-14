@@ -1,5 +1,6 @@
 import 'package:careslot/features/auth/auth_providers.dart';
 import 'package:careslot/features/hospitals/hospital_model.dart';
+import 'package:careslot/features/hospitals/presentation/manage_doctors_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -50,12 +51,12 @@ class HospitalDashboard extends ConsumerWidget {
       child: ListTile(
         leading: const Icon(Icons.medical_services_outlined),
         title: const Text('Manage Doctors'),
-        subtitle: const Text('Manage doctors profile and availability.'),
+        subtitle: const Text('View doctors and their availability.'),
         trailing: const Icon(Icons.chevron_right),
         onTap: () {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Doctor management will be available soon.'),
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => const ManageDoctorsScreen(),
             ),
           );
         },

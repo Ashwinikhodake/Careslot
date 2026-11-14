@@ -1,5 +1,4 @@
-import 'dart:ui';
-
+import 'package:careslot/features/auth/auth_gate.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -34,7 +33,7 @@ class App extends StatelessWidget {
         useMaterial3: true,
         colorSchemeSeed: const Color(0xFF0E7C86),
       ),
-      home: const Scaffold(body: Center(child: Text('Firebase connected'))),
+      home: const Scaffold(body: Center(child: AuthGate())),
     );
   }
 }

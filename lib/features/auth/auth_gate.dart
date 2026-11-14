@@ -1,6 +1,6 @@
 import 'package:careslot/features/auth/auth_providers.dart';
 import 'package:careslot/features/auth/auth_screen.dart';
-import 'package:careslot/features/hospitals/hospital_dashboard.dart';
+import 'package:careslot/features/hospitals/presentation/hospital_dashboard.dart';
 import 'package:careslot/features/hospitals/hospital_providers.dart';
 import 'package:careslot/features/patient/patient_dashboard.dart';
 import 'package:flutter/material.dart';

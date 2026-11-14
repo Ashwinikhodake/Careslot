@@ -20,6 +20,16 @@ class DoctorRepository {
     });
   }
 
+  Stream<List<DoctorModel>> watchHospitalDoctors(String hospitalId) {
+    return _doctors.where('hospitalId', isEqualTo: hospitalId).snapshots().map((
+      snapshot,
+    ) {
+      return snapshot.docs.map((document) {
+        return DoctorModel.fromMap(document.id, document.data());
+      }).toList();
+    });
+  }
+
   Future<DoctorModel?> getDoctorById(String doctorId) async {
     final document = await _doctors.doc(doctorId).get();
 
@@ -29,4 +39,6 @@ class DoctorRepository {
 
     return DoctorModel.fromMap(document.id, document.data()!);
   }
+
+  
 }
