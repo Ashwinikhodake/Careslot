@@ -40,5 +40,10 @@ class DoctorRepository {
     return DoctorModel.fromMap(document.id, document.data()!);
   }
 
-  
+  Future<void> createDoctor(DoctorModel doctor) async {
+    await _doctors.doc(doctor.uid).set({
+      ...doctor.toMap(),
+      'createdAt': FieldValue.serverTimestamp(),
+    });
+  }
 }

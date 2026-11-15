@@ -1,4 +1,5 @@
 import 'package:careslot/features/auth/auth_repository.dart';
+import 'package:careslot/features/auth/doctor_account_provisioning_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -23,3 +24,8 @@ final userProfileProvider = FutureProvider<Map<String, dynamic>?>((ref) async {
   }
   return authRepository.getUserProfile(user.uid);
 });
+
+final doctorAccountProvisioningServiceProvider =
+    Provider<DoctorAccountProvisioningService>((ref) {
+      return DoctorAccountProvisioningService();
+    });

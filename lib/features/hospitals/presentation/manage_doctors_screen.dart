@@ -1,5 +1,6 @@
 import 'package:careslot/features/doctors/doctor_model.dart';
 import 'package:careslot/features/doctors/doctor_providers.dart';
+import 'package:careslot/features/doctors/presentation/add_doctor_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -12,6 +13,15 @@ class ManageDoctorsScreen extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(title: const Text('Manage Doctors')),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(builder: (context) => const AddDoctorScreen()),
+          );
+        },
+        label: const Text('Add Doctor'),
+        icon: const Icon(Icons.person_add_alt_1),
+      ),
       body: doctorsAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (error, stackTrace) => Center(
