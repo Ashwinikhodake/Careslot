@@ -1,4 +1,5 @@
 import 'package:careslot/features/auth/auth_gate.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +19,9 @@ Future<void> main() async {
           )
         : null,
   );
+  if (kIsWeb) {
+    await FirebaseAuth.instance.setPersistence(Persistence.LOCAL);
+  }
   runApp(const ProviderScope(child: App()));
 }
 

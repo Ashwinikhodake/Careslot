@@ -93,13 +93,13 @@ class ManageDoctorsScreen extends ConsumerWidget {
   }
 }
 
-class _DoctorCard extends StatelessWidget {
+class _DoctorCard extends ConsumerWidget {
   const _DoctorCard({required this.doctor});
 
   final DoctorModel doctor;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -123,7 +123,7 @@ class _DoctorCard extends StatelessWidget {
                       'Consultation fee: ₹${doctor.consultationFee!.toStringAsFixed(0)}',
                     ),
                   const SizedBox(height: 8),
-                  _buildAvailabilityStatus(),
+                  _buildAvailabilityStatus(context, ref),
                 ],
               ),
             ),
@@ -151,22 +151,42 @@ class _DoctorCard extends StatelessWidget {
     );
   }
 
-  Widget _buildAvailabilityStatus() {
+  Widget _buildAvailabilityStatus(BuildContext context, WidgetRef ref) {
     return Row(
-      mainAxisSize: MainAxisSize.min,
       children: [
-        Icon(
-          Icons.circle,
-          size: 10,
-          color: doctor.isAvailable ? Colors.green : Colors.red,
-        ),
-        const SizedBox(width: 6),
-        Text(
-          doctor.isAvailable ? 'Available' : 'Unavailable',
-          style: TextStyle(
-            color: doctor.isAvailable ? Colors.green : Colors.red,
-            fontWeight: FontWeight.w500,
+        Expanded(
+          child: Row(
+            children: [
+              Icon(
+                Icons.circle,
+                size: 10,
+                color: doctor.isAvailable ? Colors.green : Colors.red,
+              ),
+              const SizedBox(width: 6),
+              Text(doctor.isAvailable ? 'Available' : 'Unavailable'),
+            ],
           ),
+        ),
+        Switch(
+          value: doctor.isAvailable,
+          onChanged: (value) async {
+            try {
+              await ref
+                  .read(doctorRepositoryProvider)
+                  .updateDoctorAvailability(
+                    doctorId: doctor.id,
+                    isAvailable: value,
+                  );
+            } catch (error) {
+              if (!context.mounted) return;
+
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text('Unable to update availability: $error'),
+                ),
+              );
+            }
+          },
         ),
       ],
     );

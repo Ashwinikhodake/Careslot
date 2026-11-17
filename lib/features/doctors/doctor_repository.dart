@@ -46,4 +46,14 @@ class DoctorRepository {
       'createdAt': FieldValue.serverTimestamp(),
     });
   }
+
+  Future<void> updateDoctorAvailability({
+    required String doctorId,
+    required bool isAvailable,
+  }) async {
+    await _doctors.doc(doctorId).update({
+      'isAvailable': isAvailable,
+      'updatedAt': FieldValue.serverTimestamp(),
+    });
+  }
 }
