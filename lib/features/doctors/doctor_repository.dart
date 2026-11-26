@@ -56,4 +56,20 @@ class DoctorRepository {
       'updatedAt': FieldValue.serverTimestamp(),
     });
   }
+
+  Future<void> updateDoctorProfile({
+    required String doctorId,
+    required String name,
+    required String specialty,
+    required String? profileImageUrl,
+    required double? consultationFee,
+  }) async {
+    await _doctors.doc(doctorId).update({
+      'name': name.trim(),
+      'specialty': specialty.trim(),
+      'profileImageUrl': profileImageUrl,
+      'consultationFee': consultationFee,
+      'updatedAt': FieldValue.serverTimestamp(),
+    });
+  }
 }

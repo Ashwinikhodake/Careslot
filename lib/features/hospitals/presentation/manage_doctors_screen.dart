@@ -1,6 +1,8 @@
 import 'package:careslot/features/doctors/doctor_model.dart';
 import 'package:careslot/features/doctors/doctor_providers.dart';
 import 'package:careslot/features/doctors/presentation/add_doctor_screen.dart';
+import 'package:careslot/features/doctors/presentation/edit_doctor_screen.dart';
+import 'package:careslot/features/doctors/widgets/doctor_profile_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -80,7 +82,7 @@ class ManageDoctorsScreen extends ConsumerWidget {
           }
 
           return ListView.separated(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.fromLTRB(16, 16, 16, 100),
             itemCount: doctors.length,
             separatorBuilder: (_, index) => const SizedBox(height: 12),
             itemBuilder: (context, index) {
@@ -105,7 +107,7 @@ class _DoctorCard extends ConsumerWidget {
         padding: const EdgeInsets.all(16),
         child: Row(
           children: [
-            _buildProfileImage(),
+            DoctorProfileImage(imageUrl: doctor.profileImageUrl, size: 60),
             const SizedBox(width: 16),
             Expanded(
               child: Column(
@@ -117,6 +119,18 @@ class _DoctorCard extends ConsumerWidget {
                   ),
                   const SizedBox(height: 4),
                   Text(doctor.specialty),
+                  TextButton.icon(
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              EditDoctorScreen(doctor: doctor),
+                        ),
+                      );
+                    },
+                    icon: const Icon(Icons.edit_outlined, size: 18),
+                    label: const Text('Edit Profile'),
+                  ),
                   const SizedBox(height: 8),
                   if (doctor.consultationFee != null)
                     Text(

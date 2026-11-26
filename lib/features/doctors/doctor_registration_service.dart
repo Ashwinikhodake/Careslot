@@ -17,6 +17,7 @@ class DoctorRegistrationService {
     required String email,
     required String specialty,
     required String hospitalId,
+    String? profileImageUrl,
     double? consultationFee,
   }) async {
     final normalizedEmail = email.trim().toLowerCase();
@@ -33,6 +34,7 @@ class DoctorRegistrationService {
       email: normalizedEmail,
       specialty: specialty.trim(),
       hospitalId: hospitalId,
+      profileImageUrl: profileImageUrl,
       consultationFee: consultationFee,
     );
 

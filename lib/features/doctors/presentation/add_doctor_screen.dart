@@ -17,6 +17,7 @@ class _AddDoctorScreenState extends ConsumerState<AddDoctorScreen> {
   final _emailController = TextEditingController();
   final _spacialtyController = TextEditingController();
   final _feeController = TextEditingController();
+  final _imageUrlController = TextEditingController();
 
   bool _isSubmitting = false;
 
@@ -26,6 +27,7 @@ class _AddDoctorScreenState extends ConsumerState<AddDoctorScreen> {
     _emailController.dispose();
     _spacialtyController.dispose();
     _feeController.dispose();
+    _imageUrlController.dispose();
     super.dispose();
   }
 
@@ -55,6 +57,9 @@ class _AddDoctorScreenState extends ConsumerState<AddDoctorScreen> {
             email: _emailController.text,
             specialty: _spacialtyController.text,
             hospitalId: hospitalId,
+            profileImageUrl: _imageUrlController.text.trim().isEmpty
+                ? null
+                : _imageUrlController.text.trim(),
             consultationFee: fee,
           );
 
@@ -75,7 +80,7 @@ class _AddDoctorScreenState extends ConsumerState<AddDoctorScreen> {
         context,
       ).showSnackBar(SnackBar(content: Text('Unable to add doctor: $error')));
     } finally {
-      if (!mounted) {
+      if (mounted) {
         setState(() => _isSubmitting = false);
       }
     }
@@ -149,6 +154,19 @@ class _AddDoctorScreenState extends ConsumerState<AddDoctorScreen> {
                   }
                   return null;
                 },
+              ),
+
+              const SizedBox(height: 16),
+
+              TextFormField(
+                controller: _imageUrlController,
+                keyboardType: TextInputType.url,
+                decoration: const InputDecoration(
+                  labelText: 'Profile Image Url(optional)',
+                  hintText: 'https://example.com/doctor.jpg',
+                  prefixIcon: Icon(Icons.image_outlined),
+                  border: OutlineInputBorder(),
+                ),
               ),
               const SizedBox(height: 16),
               TextFormField(

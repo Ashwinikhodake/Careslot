@@ -89,15 +89,28 @@ class AuthGate extends ConsumerWidget {
                       );
                 }
                 return Scaffold(
+                  appBar: AppBar(
+                    title: const Text('CareSlot'),
+                    actions: [
+                      IconButton(
+                        onPressed: () async {
+                          await ref.read(authRepositoryProvider).signOut();
+                        },
+                        icon: const Icon(Icons.logout),
+                        tooltip: 'Sign out',
+                      ),
+                    ],
+                  ),
                   body: Center(
                     child: Text('Dashboard for $role is coming soon.'),
                   ),
                 );
               },
-              error: (erro, stackTrace) => const Scaffold(
+              error: (error, stackTrace) => Scaffold(
                 body: Center(
-                  child: Text(
-                    'Unable to load your profile. Please try again later.',
+                  child: Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: SelectableText('Profile loading error: \n$error'),
                   ),
                 ),
               ),
